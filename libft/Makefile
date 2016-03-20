@@ -30,7 +30,7 @@ _SRC			= ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
 					ft_lstiter.c ft_lstmap.c ft_lstnew.c ft_nblen.c \
 					ft_swap.c ft_show_tab.c ft_sqrt.c ft_strcut.c \
 					ft_str_to_tab.c ft_strfjoin.c get_next_line.c \
-					ft_lstiter_if.c ft_lstsort.c ft_lstrev.c
+					ft_lstiter_if.c ft_lstsort.c ft_lstrev.c ft_free_tab.c
 
 SRC				= $(addprefix srcs/,$(_SRC))
 INCLUDES		= ./includes/

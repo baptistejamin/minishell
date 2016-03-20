@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_env.c                                    :+:      :+:    :+:   */
+/*   minishell_builtins_pwd.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,36 +12,14 @@
 
 #include <minishell.h>
 
-char  **minishell_copy_env(char **env)
+int   minishell_builtins_pwd(void *sh_, char **cmds)
 {
-  int   i;
-  char  **new;
+  t_sh  *sh;
+  char  path[257];
 
-  i = 0;
-  new = NULL;
-  while (env[i])
-    i++;
-  new = malloc(sizeof(char *) * (i + 1));
-  i = 0;
-  while (env[i])
-  {
-    new[i] = ft_strdup(env[i]);
-    i++;
-  }
-  new[i] = NULL;
-  return (new);
-}
-
-char	*minishell_get_env(t_sh *sh, char *var)
-{
-	int	i;
-
-	i = 0;
-	while (sh->env[i])
-	{
-		if (ft_strncmp(sh->env[i], var, ft_strlen(var)) == 0)
-			return (ft_strchr(sh->env[i], '=') + 1);
-		i++;
-	}
-	return (NULL);
+  UNUSED(cmds);
+  sh = (t_sh *)sh_;
+  getcwd(path, 256);
+  ft_putendl(path);
+  return (0);
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_env.c                                    :+:      :+:    :+:   */
+/*   minishell_builtins_env.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,36 +12,18 @@
 
 #include <minishell.h>
 
-char  **minishell_copy_env(char **env)
+int   minishell_builtins_env(void *sh_, char **cmds)
 {
+  t_sh  *sh;
   int   i;
-  char  **new;
 
+  UNUSED(cmds);
+  sh = (t_sh *)sh_;
   i = 0;
-  new = NULL;
-  while (env[i])
-    i++;
-  new = malloc(sizeof(char *) * (i + 1));
-  i = 0;
-  while (env[i])
+  while (sh->env[i])
   {
-    new[i] = ft_strdup(env[i]);
+    ft_putendl(sh->env[i]);
     i++;
   }
-  new[i] = NULL;
-  return (new);
-}
-
-char	*minishell_get_env(t_sh *sh, char *var)
-{
-	int	i;
-
-	i = 0;
-	while (sh->env[i])
-	{
-		if (ft_strncmp(sh->env[i], var, ft_strlen(var)) == 0)
-			return (ft_strchr(sh->env[i], '=') + 1);
-		i++;
-	}
-	return (NULL);
+  return (0);
 }

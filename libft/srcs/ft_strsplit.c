@@ -13,64 +13,64 @@
 #include "libft.h"
 #include <stdlib.h>
 
-static size_t	ft_count_words(char const *s, char c)
+static size_t		ft_count_words(const char *s, char c)
 {
 	size_t	words;
+	size_t	i;
 
 	words = 0;
-	while (*s)
+	i = 0;
+	while (s[i] != '\0')
 	{
-		while (*s == c)
-			s++;
-		if (*s && *s != c)
-		{
+		if ((i == 0 || s[i - 1] == c) && s[i] != c)
 			words++;
-			s++;
-			while (*s && *s != c)
-				s++;
-		}
+		i++;
 	}
 	return (words);
 }
 
-static size_t	ft_wordlen(char const *s, char c)
+static size_t		ft_wordlen(char const *s, char c)
 {
 	size_t i;
 
 	i = 0;
-	while (*s && *s != c)
+	while (*s)
 	{
-		i++;
-		s++;
+		if (*s != c)
+		{
+			s++;
+			i++;
+		}
+		else
+			return (i);
 	}
 	return (i);
 }
 
-char			**ft_strsplit(char const *s, char c)
+char				**ft_strsplit(char const *s, char c)
 {
 	char	**word_tab;
 	size_t	nb_words;
-	size_t	index;
-	char	*tmp;
+	size_t	word_len;
+	size_t	i;
+	size_t	n;
 
-	tmp = (char *)s;
-	if (!tmp)
-		return (NULL);
-	index = 0;
-	nb_words = ft_count_words(tmp, c);
+	i = 0;
+	n = 0;
+	nb_words = ft_count_words(s, c);
 	word_tab = (char **)malloc(sizeof(char *) * (nb_words + 1));
-	if (!word_tab)
-		return (NULL);
-	while (word_tab && index < nb_words)
+	while (n < nb_words && word_tab)
 	{
-		while (*tmp && *tmp == c)
-			tmp++;
-		word_tab[index] = ft_strsub(tmp, 0, ft_wordlen(tmp, c));
-		if (word_tab[index] == NULL)
-			return (NULL);
-		tmp += ft_wordlen(s, c);
-		index++;
+		while (s[i] != '\0' && s[i] == c)
+			i++;
+		word_len = ft_wordlen(&s[i], c);
+		word_tab[n] = malloc(sizeof(**word_tab) * (word_len + 1));
+		ft_strncpy(word_tab[n], &s[i], word_len);
+		word_tab[n][word_len] = '\0';
+		while (s[i] != '\0' && s[i] != c)
+			i++;
+		n++;
 	}
-	word_tab[index] = NULL;
+	word_tab[n] = NULL;
 	return (word_tab);
 }

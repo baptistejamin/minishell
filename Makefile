@@ -14,7 +14,15 @@
 NAME			= minishell
 LIB				=	./libft/libft.a
 _SRC			= 	minishell.c \
-					minishell_env.c
+					minishell_env.c \
+					minishell_errors.c \
+					builtins/minishell_builtins.c \
+					builtins/minishell_builtins_pwd.c \
+					builtins/minishell_builtins_exit.c \
+					builtins/minishell_builtins_cd.c \
+					builtins/minishell_builtins_env.c \
+					builtins/minishell_builtins_setenv.c \
+					builtins/minishell_builtins_unsetenv.c
 
 INCLUDES		= -I./libft/includes/ -I./includes/
 SRC				= $(addprefix srcs/,$(_SRC))

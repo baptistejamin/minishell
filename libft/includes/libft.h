@@ -104,6 +104,7 @@ int					ft_get_min_three(int a, int b, int c);
 void				ft_show_tab(int *tab, int size);
 int					ft_sqrt(int nb);
 int					ft_strcut(char **s1, char **s2, char c);
+void				ft_free_tab(char **tab);
 int					get_next_line(int const fd, char **line);
 
 #endif
