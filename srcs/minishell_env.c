@@ -21,7 +21,7 @@ char  **minishell_copy_env(char **env)
   new = NULL;
   while (env[i])
     i++;
-  new = malloc(sizeof(char *) * (i + 1));
+  new = malloc(sizeof(char **) * (i + 1));
   i = 0;
   while (env[i])
   {

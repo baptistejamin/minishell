@@ -87,7 +87,9 @@ int	minishell(t_sh *sh)
 			res = minishell_boot_builtin(sh, cmds);
 		else if (cmds[0] && ft_strcmp(cmd, " ") != 0)
 			res = boot_cmd(sh, cmds);
-		ft_free_tab(cmds);
+		if (cmds)
+			ft_free_tab(cmds);
+		cmds = NULL;
 	}
 	return (res);
 }

@@ -33,7 +33,7 @@ void   minishell_builtins_addenv(t_sh *sh, char **cmds)
 	new = NULL;
 	while (sh->env[i])
 		i++;
-	new = malloc(sizeof(char *) * (i + 2));
+	new = malloc(sizeof(char **) * (i + 2));
 	i = 0;
 	while (sh->env[i])
 	{
