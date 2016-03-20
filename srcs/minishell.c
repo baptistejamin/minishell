@@ -83,9 +83,9 @@ int	minishell(t_sh *sh)
 		sh->last_res = res;
 		cmd = ft_strfjoin(cmd, " ");
 		cmds = ft_str_to_tab(cmd);
-		if (ft_strcmp(cmd, " ") != 0 && minishell_is_builtin(sh, cmds))
+		if (cmds[0] && minishell_is_builtin(sh, cmds))
 			res = minishell_boot_builtin(sh, cmds);
-		else if (ft_strcmp(cmd, " ") != 0)
+		else if (cmds[0] && ft_strcmp(cmd, " ") != 0)
 			res = boot_cmd(sh, cmds);
 		ft_free_tab(cmds);
 	}
