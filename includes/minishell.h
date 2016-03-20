@@ -52,5 +52,6 @@ int   minishell_is_builtin(t_sh *sh, char **cmds);
 int   minishell_boot_builtin(t_sh *sh, char **cmds);
 void  minishell_errors_is_directory(char *cmd);
 void  minishell_errors_not_found(char *cmd);
+void  minishell_errors_no_file_directory(char *cmd);
 
 #endif

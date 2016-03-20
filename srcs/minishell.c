@@ -18,7 +18,7 @@ int		file_cmd(t_sh *sh, char **cmds)
 
 	if (lstat(cmds[0], &stat_) == -1)
 	{
-		minishell_errors_not_found(cmds[0]);
+		minishell_errors_no_file_directory(cmds[0]);
 		return (-1);
 	}
 	if (S_ISDIR(stat_.st_mode))
@@ -28,7 +28,7 @@ int		file_cmd(t_sh *sh, char **cmds)
 	}
 	if (access(cmds[0], X_OK) == 0)
 		return (minishell_launch_cmd(sh, cmds[0], cmds));
-	minishell_errors_not_found(cmds[0]);
+	minishell_errors_no_file_directory(cmds[0]);
 	return (-1);
 }
 

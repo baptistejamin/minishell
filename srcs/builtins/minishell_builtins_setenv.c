@@ -56,7 +56,7 @@ int   minishell_builtins_setenv(void *sh_, char **cmds)
 	i = 0;
 	if (!cmds[1])
 		return (minishell_builtins_setenv_error_missing());
-	if (cmds[3])
+	if (cmds[2] && cmds[3])
 		return (minishell_builtins_setenv_error_two_many());
 	while (sh->env[i])
 	{
