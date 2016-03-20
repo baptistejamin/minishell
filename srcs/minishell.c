@@ -32,10 +32,10 @@ int		file_cmd(t_sh *sh, char **cmds)
 	return (-1);
 }
 
-int	minishell_launch_cmd(t_sh *sh, char *cmd, char **args)
+int		minishell_launch_cmd(t_sh *sh, char *cmd, char **args)
 {
 	pid_t	pid;
-	int	res;
+	int		res;
 
 	res = -1;
 	if ((pid = fork()) != 0)
@@ -45,7 +45,7 @@ int	minishell_launch_cmd(t_sh *sh, char *cmd, char **args)
 	return (res);
 }
 
-int	boot_cmd(t_sh *sh, char **cmds)
+int		boot_cmd(t_sh *sh, char **cmds)
 {
 	char	**path;
 	char	*tmp;
@@ -69,7 +69,7 @@ int	boot_cmd(t_sh *sh, char **cmds)
 	return (-1);
 }
 
-int	minishell(t_sh *sh)
+int		minishell(t_sh *sh)
 {
 	char	**cmds;
 	char	*cmd;

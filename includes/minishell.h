@@ -22,6 +22,8 @@
 
 typedef int (*t_func)(void *sh, char **cmds);
 
+typedef struct stat	t_stat;
+
 typedef struct    s_builtin
 {
 	char      *name;
@@ -40,6 +42,7 @@ typedef struct		s_sh
 
 char	*minishell_get_env(t_sh *sh, char *var);
 char  **minishell_copy_env(char **env);
+int		minishell_count_env(char **env);
 int   minishell_launch_cmd(t_sh *sh, char *cmd, char **args);
 void  minishell_init_builtins(t_sh *sh);
 int   minishell_builtins_exit(void *sh_, char **cmds);

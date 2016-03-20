@@ -12,24 +12,31 @@
 
 #include <minishell.h>
 
-char  **minishell_copy_env(char **env)
+char	**minishell_copy_env(char **env)
 {
-  int   i;
-  char  **new;
+	int		i;
+	char	**new;
 
-  i = 0;
-  new = NULL;
-  while (env[i])
-    i++;
-  new = malloc(sizeof(char **) * (i + 1));
-  i = 0;
-  while (env[i])
-  {
-    new[i] = ft_strdup(env[i]);
-    i++;
-  }
-  new[i] = NULL;
-  return (new);
+	new = malloc(sizeof(char **) * (minishell_count_env(env) + 1));
+	i = 0;
+	while (new && env[i])
+	{
+		new[i] = ft_strdup(env[i]);
+		i++;
+	}
+	if (new)
+		new[i] = NULL;
+	return (new);
+}
+
+int		minishell_count_env(char **env)
+{
+	int		i;
+
+	i = 0;
+	while (env[i])
+		i++;
+	return (i);
 }
 
 char	*minishell_get_env(t_sh *sh, char *var)

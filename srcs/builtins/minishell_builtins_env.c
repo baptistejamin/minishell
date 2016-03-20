@@ -12,18 +12,18 @@
 
 #include <minishell.h>
 
-int   minishell_builtins_env(void *sh_, char **cmds)
+int	minishell_builtins_env(void *sh_, char **cmds)
 {
-  t_sh  *sh;
-  int   i;
+	t_sh	*sh;
+	int		i;
 
-  UNUSED(cmds);
-  sh = (t_sh *)sh_;
-  i = 0;
-  while (sh->env[i])
-  {
-    ft_putendl(sh->env[i]);
-    i++;
-  }
-  return (0);
+	UNUSED(cmds);
+	sh = (t_sh *)sh_;
+	i = 0;
+	while (sh->env[i])
+	{
+		ft_putendl(sh->env[i]);
+		i++;
+	}
+	return (0);
 }

@@ -12,46 +12,43 @@
 
 #include <minishell.h>
 
-int  minishell_builtins_unsetenv_error_missing(void)
+int		minishell_builtins_unsetenv_error_missing(void)
 {
-  ft_putendl_fd("setenv: You must provide a variable", 2);
-  return (2);
+	ft_putendl_fd("setenv: You must provide a variable", 2);
+	return (2);
 }
 
-int  minishell_builtins_unsetenv_error_two_many(void)
+int		minishell_builtins_unsetenv_error_two_many(void)
 {
-  ft_putendl_fd("setenv: Two many arguments", 2);
-  return (2);
+	ft_putendl_fd("setenv: Two many arguments", 2);
+	return (2);
 }
 
-int   minishell_builtins_unsetenv(void *sh_, char **cmds)
+int		minishell_builtins_unsetenv(void *sh_, char **cmds)
 {
-  t_sh  *sh;
-  char **new;
-  int   i;
-  int   n;
+	t_sh	*sh;
+	char	**new;
+	int		i;
+	int		n;
 
-  sh = (t_sh *)sh_;
-  i = 0;
-  while (sh->env[i])
-    i++;
-  new = malloc(sizeof(char *) * (i));
-  i = 0;
-  n = 0;
-  if (!cmds[1])
-    return (minishell_builtins_unsetenv_error_missing());
-  if (cmds[2])
-    return (minishell_builtins_unsetenv_error_two_many());
-  while (sh->env[i])
-  {
-    if ((ft_strncmp(sh->env[i], cmds[1], ft_strlen(cmds[1])) != 0)){
-      new[n] = ft_strdup(sh->env[i]);
-      n++;
-    }
-    i++;
-  }
-  new[n] = NULL;
-  ft_free_tab(sh->env);
-  sh->env = new;
-  return (0);
+	sh = (t_sh *)sh_;
+	new = malloc(sizeof(char **) * (minishell_count_env(sh->env)));
+	i = 0;
+	n = -1;
+	if (!cmds[1])
+		return (minishell_builtins_unsetenv_error_missing());
+	if (cmds[2])
+		return (minishell_builtins_unsetenv_error_two_many());
+	while (sh->env[i])
+	{
+		if ((ft_strncmp(sh->env[i], cmds[1], ft_strlen(cmds[1])) != 0))
+		{
+			new[++n] = ft_strdup(sh->env[i]);
+		}
+		i++;
+	}
+	new[n] = NULL;
+	ft_free_tab(sh->env);
+	sh->env = new;
+	return (0);
 }

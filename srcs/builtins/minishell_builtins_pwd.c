@@ -12,14 +12,14 @@
 
 #include <minishell.h>
 
-int   minishell_builtins_pwd(void *sh_, char **cmds)
+int	minishell_builtins_pwd(void *sh_, char **cmds)
 {
-  t_sh  *sh;
-  char  path[257];
+	t_sh	*sh;
+	char	path[257];
 
-  UNUSED(cmds);
-  sh = (t_sh *)sh_;
-  getcwd(path, 256);
-  ft_putendl(path);
-  return (0);
+	UNUSED(cmds);
+	sh = (t_sh *)sh_;
+	getcwd(path, 256);
+	ft_putendl(path);
+	return (0);
 }
