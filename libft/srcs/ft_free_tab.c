@@ -13,18 +13,17 @@
 #include "libft.h"
 #include <stdlib.h>
 
-void  ft_free_tab(char **tab)
+void	ft_free_tab(char **tab)
 {
-  int i;
+	int i;
 
-  i = 0;
-
-  if (!tab)
-    return ;
-  while (tab[i])
-  {
-    free(tab[i]);
-    i++;
-  }
-  free(tab);
+	i = 0;
+	if (!tab)
+		return ;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
 }
