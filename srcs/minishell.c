@@ -91,6 +91,8 @@ int		minishell(t_sh *sh)
 			ft_free_tab(cmds);
 		cmds = NULL;
 	}
+	if (sh->env)
+		ft_free_tab(sh->env);
 	return (res);
 }
 
@@ -99,25 +101,26 @@ int		main(int argc, char **argv, char **environ)
 	t_sh	sh;
 	char	*cmds[4];
 
+	UNUSED(argv);
+	if (argc > 1)
+	{
+		ft_putendl_fd("minishell cannot execute commands", 2);
+		return (0);
+	}
 	minishell_init_builtins(&sh);
 	sh.env = minishell_copy_env(environ);
+	cmds[0] = ft_strdup("setenv");
+	cmds[1] = ft_strdup("SHLVL");
+	cmds[3] = NULL;
 	if (minishell_get_env(&sh, "SHLVL"))
 	{
-		cmds[0] = ft_strdup("setenv");
-		cmds[1] = ft_strdup("SHLVL");
 		cmds[2] = ft_itoa(ft_atoi(minishell_get_env(&sh, "SHLVL")) + 1);
-		cmds[3] = NULL;
 		minishell_builtins_setenv(&sh, cmds);
 	}
 	else
 	{
-		cmds[0] = ft_strdup("setenv");
-		cmds[1] = ft_strdup("SHLVL");
 		cmds[2] = ft_itoa(1);
-		cmds[3] = NULL;
 		minishell_builtins_setenv(&sh, cmds);
 	}
-	sh.argc = argc;
-	sh.argv = argv;
 	return (minishell(&sh));
 }

@@ -81,7 +81,7 @@ int		minishell_builtins_cd(void *sh_, char **cmds)
 	path = minishell_builtins_cd_manage_home(sh, path, cmds);
 	if (!path)
 		path = ".";
-	if (lstat(path, &stat_) == -1)
+	if (stat(path, &stat_) == -1)
 		return (minishell_builtins_cd_error_no_file_directory(path, 0));
 	if (!S_ISDIR(stat_.st_mode))
 		return (minishell_builtins_cd_error_no_file_directory(path, 1));

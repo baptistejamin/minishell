@@ -32,8 +32,6 @@ typedef struct			s_builtin
 
 typedef struct			s_sh
 {
-	int					argc;
-	char				**argv;
 	char				**env;
 	int					last_res;
 	t_builtin			builtins[10];

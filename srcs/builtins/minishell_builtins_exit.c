@@ -16,7 +16,7 @@ void	minishell_builtins_exit_error_digit(char *param)
 {
 	ft_putstr_fd("exit: ", 2);
 	ft_putstr_fd(param, 2);
-	ft_putstr_fd(": numeric argument required\n", 2);
+	ft_putstr_fd(": unique numeric argument required\n", 2);
 }
 
 int		minishell_assert_digit(char *str)
@@ -40,7 +40,7 @@ int		minishell_builtins_exit(void *sh_, char **cmds)
 	sh = (t_sh *)sh_;
 	if (cmds[1])
 	{
-		if (minishell_assert_digit(cmds[1]))
+		if (minishell_assert_digit(cmds[1]) && !cmds[2])
 		{
 			exit(ft_atoi(cmds[1]));
 			return (ft_atoi(cmds[1]));
