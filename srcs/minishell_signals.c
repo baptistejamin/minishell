@@ -16,7 +16,6 @@ void	minishell_signals_exit(int i)
 {
 	UNUSED(i);
 	signal(SIGQUIT, SIG_DFL);
-	ft_putstr("\n$>");
 }
 
 void	minishell_signals(void)

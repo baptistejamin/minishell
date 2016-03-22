@@ -56,7 +56,7 @@ int		minishell_builtins_exit(void *sh_, char **cmds)
 	else
 	{
 		if (sh->env)
-				ft_free_tab(sh->env);
+			ft_free_tab(sh->env);
 		exit(sh->last_res);
 	}
 	return (sh->last_res);
