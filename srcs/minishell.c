@@ -74,12 +74,14 @@ int		minishell(t_sh *sh)
 	char	**cmds;
 	char	*cmd;
 	int		res;
+	int		gnl;
 
 	res = 0;
-	while (1)
+	gnl = 1;
+	while (gnl)
 	{
 		ft_putstr("$>");
-		get_next_line(0, &cmd);
+		gnl = get_next_line(0, &cmd);
 		sh->last_res = res;
 		cmd = ft_strfjoin(cmd, " ");
 		cmds = ft_str_to_tab(cmd);
