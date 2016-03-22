@@ -50,5 +50,5 @@ char	*minishell_get_env(t_sh *sh, char *var)
 			return (ft_strchr(sh->env[i], '=') + 1);
 		i++;
 	}
-	return (NULL);
+	return ("");
 }
