@@ -20,10 +20,15 @@ int	minishell_builtins_env(void *sh_, char **cmds)
 	UNUSED(cmds);
 	sh = (t_sh *)sh_;
 	i = 0;
-	while (sh->env[i])
+	if (!cmds[1])
 	{
-		ft_putendl(sh->env[i]);
-		i++;
+		while (sh->env[i])
+		{
+			ft_putendl(sh->env[i]);
+			i++;
+		}
 	}
+	else
+		ft_putendl(minishell_get_env(sh, cmds[1]));
 	return (0);
 }
