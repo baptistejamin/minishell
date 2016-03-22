@@ -113,14 +113,10 @@ int		main(int argc, char **argv, char **environ)
 	cmds[1] = ft_strdup("SHLVL");
 	cmds[3] = NULL;
 	if (minishell_get_env(&sh, "SHLVL"))
-	{
 		cmds[2] = ft_itoa(ft_atoi(minishell_get_env(&sh, "SHLVL")) + 1);
-		minishell_builtins_setenv(&sh, cmds);
-	}
 	else
-	{
 		cmds[2] = ft_itoa(1);
-		minishell_builtins_setenv(&sh, cmds);
-	}
+	minishell_builtins_setenv(&sh, cmds);
+	minishell_signals();
 	return (minishell(&sh));
 }

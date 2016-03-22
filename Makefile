@@ -16,6 +16,7 @@ LIB				=	./libft/libft.a
 _SRC			= 	minishell.c \
 					minishell_env.c \
 					minishell_errors.c \
+					minishell_signals.c \
 					builtins/minishell_builtins.c \
 					builtins/minishell_builtins_pwd.c \
 					builtins/minishell_builtins_exit.c \

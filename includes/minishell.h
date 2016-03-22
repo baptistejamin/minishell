@@ -37,6 +37,7 @@ typedef struct			s_sh
 	t_builtin			builtins[10];
 }						t_sh;
 
+void					minishell_signals();
 char					*minishell_get_env(t_sh *sh, char *var);
 char					**minishell_copy_env(char **env);
 int						minishell_count_env(char **env);
