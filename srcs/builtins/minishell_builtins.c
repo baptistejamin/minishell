@@ -28,6 +28,8 @@ void	minishell_init_builtins(t_sh *sh)
 		&minishell_builtins_setenv);
 	minishell_init_builtin(&sh->builtins[5], "unsetenv",
 		&minishell_builtins_unsetenv);
+	minishell_init_builtin(&sh->builtins[6], "help",
+		&minishell_builtins_help);
 	minishell_init_builtin(&sh->builtins[7], "", &minishell_builtins_exit);
 }
 

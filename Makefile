@@ -19,6 +19,7 @@ _SRC			= 	minishell.c \
 					builtins/minishell_builtins.c \
 					builtins/minishell_builtins_pwd.c \
 					builtins/minishell_builtins_exit.c \
+					builtins/minishell_builtins_help.c \
 					builtins/minishell_builtins_cd.c \
 					builtins/minishell_builtins_env.c \
 					builtins/minishell_builtins_setenv.c \

@@ -76,7 +76,7 @@ int		minishell_builtins_cd(void *sh_, char **cmds)
 
 	sh = (t_sh *)sh_;
 	if (cmds[1] && ft_strcmp(cmds[1], "-") == 0)
-		cmds[1] = ft_strdup(minishell_get_env(sh, "OLDPWD"));
+		cmds[1] = minishell_get_env(sh, "OLDPWD");
 	path = cmds[1];
 	path = minishell_builtins_cd_manage_home(sh, path, cmds);
 	if (!path)

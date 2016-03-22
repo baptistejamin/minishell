@@ -43,6 +43,7 @@ int						minishell_count_env(char **env);
 int						minishell_launch_cmd(t_sh *sh, char *cmd, char **args);
 void					minishell_init_builtins(t_sh *sh);
 int						minishell_builtins_exit(void *sh_, char **cmds);
+int						minishell_builtins_help(void *sh_, char **cmds);
 int						minishell_builtins_pwd(void *sh_, char **cmds);
 int						minishell_builtins_cd(void *sh_, char **cmds);
 int						minishell_builtins_env(void *sh_, char **cmds);
