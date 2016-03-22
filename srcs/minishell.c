@@ -91,6 +91,8 @@ int		minishell(t_sh *sh)
 			res = boot_cmd(sh, cmds);
 		if (cmds)
 			ft_free_tab(cmds);
+		if (cmd)
+			free(cmd);
 		cmds = NULL;
 	}
 	if (sh->env)
