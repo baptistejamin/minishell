@@ -65,7 +65,8 @@ int		boot_cmd(t_sh *sh, char **cmds)
 		i++;
 	}
 	minishell_errors_not_found(cmds[0]);
-	ft_free_tab(path);
+	if (path)
+		ft_free_tab(path);
 	return (-1);
 }
 
@@ -89,10 +90,10 @@ int		minishell(t_sh *sh)
 			res = minishell_boot_builtin(sh, cmds);
 		else if (cmds[0] && ft_strcmp(cmd, " ") != 0)
 			res = boot_cmd(sh, cmds);
-		if (cmds)
-			ft_free_tab(cmds);
 		if (cmd)
 			free(cmd);
+		if (cmds)
+			ft_free_tab(cmds);
 		cmds = NULL;
 	}
 	if (sh->env)
