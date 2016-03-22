@@ -91,6 +91,8 @@ int		minishell(t_sh *sh)
 			ft_free_tab(cmds);
 		cmds = NULL;
 	}
+	if (sh->env)
+		ft_free_tab(sh->env);
 	return (res);
 }
 
@@ -99,6 +101,8 @@ int		main(int argc, char **argv, char **environ)
 	t_sh	sh;
 	char	*cmds[4];
 
+	UNUSED(argc);
+	UNUSED(argv);
 	minishell_init_builtins(&sh);
 	sh.env = minishell_copy_env(environ);
 	if (minishell_get_env(&sh, "SHLVL"))
@@ -117,7 +121,5 @@ int		main(int argc, char **argv, char **environ)
 		cmds[3] = NULL;
 		minishell_builtins_setenv(&sh, cmds);
 	}
-	sh.argc = argc;
-	sh.argv = argv;
 	return (minishell(&sh));
 }
