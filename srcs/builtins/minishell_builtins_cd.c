@@ -63,6 +63,16 @@ char	*minishell_builtins_cd_manage_home(t_sh *sh, char *path, char **cmds)
 		else
 			return (ft_strjoin(minishell_get_env(sh, "HOME"), "/"));
 	}
+	else if (!cmds[1])
+	{
+		if (*minishell_get_env(sh, "HOME") == '\0')
+		{
+			ft_putendl_fd("HOME is not defined", 2);
+			return (".");
+		}
+		else
+			return (minishell_get_env(sh, "HOME"));
+	}
 	return (path);
 }
 
