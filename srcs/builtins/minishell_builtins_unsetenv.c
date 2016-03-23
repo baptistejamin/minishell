@@ -41,7 +41,7 @@ int		minishell_builtins_unsetenv(void *sh_, char **cmds)
 		return (minishell_builtins_unsetenv_error_two_many());
 	while (sh->env[i])
 	{
-		if ((ft_strncmp(sh->env[i], cmds[1], ft_strlen(cmds[1])) != 0))
+		if ((ft_strncmp(cmds[1], sh->env[i], ft_strlen(cmds[1])) != 0))
 		{
 			new[++n] = ft_strdup(sh->env[i]);
 		}

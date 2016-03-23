@@ -54,13 +54,13 @@ int		minishell_builtins_setenv(void *sh_, char **cmds)
 	UNUSED(cmds);
 	sh = (t_sh *)sh_;
 	i = 0;
-	if (!cmds[1])
+	if (!cmds[1] || (cmds[1] && !cmds[2]))
 		return (minishell_builtins_setenv_error_missing());
 	if (cmds[2] && cmds[3])
 		return (minishell_builtins_setenv_error_two_many());
 	while (sh->env[i])
 	{
-		if ((ft_strncmp(sh->env[i], cmds[1], ft_strlen(cmds[1])) == 0) &&
+		if ((ft_strncmp(cmds[1], sh->env[i], ft_strlen(cmds[1])) == 0) &&
 			cmds[2])
 		{
 			free(sh->env[i]);
