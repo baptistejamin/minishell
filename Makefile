@@ -24,7 +24,9 @@ _SRC			= 	minishell.c \
 					builtins/minishell_builtins_cd.c \
 					builtins/minishell_builtins_env.c \
 					builtins/minishell_builtins_setenv.c \
-					builtins/minishell_builtins_unsetenv.c
+					builtins/minishell_builtins_unsetenv.c \
+					builtins/helpers/minishell_builtins_options_parser.c \
+					builtins/helpers/minishell_builtins_helpers_cd.c
 
 INCLUDES		= -I./libft/includes/ -I./includes/
 SRC				= $(addprefix srcs/,$(_SRC))

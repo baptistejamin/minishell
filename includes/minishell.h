@@ -17,8 +17,10 @@
 # include <unistd.h>
 # include <sys/stat.h>
 # include <stdlib.h>
+# include <fcntl.h>
 
 # define UNUSED(x) (void)(x)
+# define PATH_MAX 4096
 
 typedef int	(*t_func)(void *sh, char **cmds);
 
@@ -29,6 +31,15 @@ typedef struct			s_builtin
 	char				*name;
 	t_func				func;
 }						t_builtin;
+
+typedef struct			s_generic_options
+{
+	char				options[256];
+	int					start;
+	int					error;
+	int					error_char;
+	int					options_counter;
+}						t_generic_options;
 
 typedef struct			s_sh
 {
@@ -46,7 +57,7 @@ void					minishell_init_builtins(t_sh *sh);
 int						minishell_builtins_exit(void *sh_, char **cmds);
 int						minishell_builtins_help(void *sh_, char **cmds);
 int						minishell_builtins_pwd(void *sh_, char **cmds);
-int						minishell_builtins_cd(void *sh_, char **cmds);
+int						minishell_builtins_cd(void *sh, char **cmds);
 int						minishell_builtins_env(void *sh_, char **cmds);
 int						minishell_builtins_setenv(void *sh_, char **cmds);
 int						minishell_builtins_unsetenv(void *sh_, char **cmds);
@@ -55,5 +66,15 @@ int						minishell_boot_builtin(t_sh *sh, char **cmds);
 void					minishell_errors_is_directory(char *cmd);
 void					minishell_errors_not_found(char *cmd);
 void					minishell_errors_no_file_directory(char *cmd);
+t_generic_options		minishell_builtins_options_parser(char **cmds,
+							char *managed_options);
+int						minishell_builtins_cd_change_directory(t_sh *sh,
+							char *curpath, int is_physical);
+void					minishell_builtins_cd_update_path(t_sh *sh,
+							char *old_path, char *path);
+char					*minishell_builtins_cd_assert_multiple_args(t_sh *sh,
+							char **cmds);
+char					*minishell_builtins_cd_assert_home(t_sh *sh);
+int						minishell_builtins_cd_error(int type, char *path);
 
 #endif

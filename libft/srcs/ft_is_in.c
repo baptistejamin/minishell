@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_builtins_pwd.c                           :+:      :+:    :+:   */
+/*   ft_is_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bjamin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/10 14:06:11 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/15 13:10:37 by bjamin           ###   ########.fr       */
+/*   Created: 2015/11/26 14:48:35 by bjamin            #+#    #+#             */
+/*   Updated: 2015/11/27 14:30:13 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
-
-int	minishell_builtins_pwd(void *sh_, char **cmds)
+int		ft_is_in(char *str, char c)
 {
-	t_sh	*sh;
-	char	path[PATH_MAX];
-
-	UNUSED(cmds);
-	sh = (t_sh *)sh_;
-	getcwd(path, PATH_MAX);
-	ft_putendl(path);
+	while (str && *str)
+	{
+		if (*str == c)
+			return (1);
+		str++;
+	}
 	return (0);
 }
