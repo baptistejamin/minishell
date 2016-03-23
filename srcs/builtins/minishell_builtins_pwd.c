@@ -14,12 +14,26 @@
 
 int	minishell_builtins_pwd(void *sh_, char **cmds)
 {
-	t_sh	*sh;
-	char	path[PATH_MAX];
+	t_sh				*sh;
+	char				path[PATH_MAX];
+	t_generic_options	options;
 
-	UNUSED(cmds);
 	sh = (t_sh *)sh_;
-	getcwd(path, PATH_MAX);
-	ft_putendl(path);
+	options = minishell_builtins_options_parser(cmds, "LP");
+	if (options.error)
+	{
+		ft_putstr_fd("bad option: -", 2);
+		ft_putchar_fd(options.error_char, 2);
+		ft_putstr_fd("\n", 2);
+		return (1);
+	}
+	if (ft_is_in(options.options, 'P') && !ft_is_in(options.options, 'L') &&
+		*minishell_get_env(sh, "PWD") == '/')
+		ft_putendl(minishell_get_env(sh, "PWD"));
+	else
+	{
+		getcwd(path, PATH_MAX);
+		ft_putendl(path);
+	}
 	return (0);
 }
