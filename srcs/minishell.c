@@ -80,7 +80,6 @@ int		minishell(t_sh *sh)
 	ft_putstr("$>");
 	while (get_next_line(0, &cmd))
 	{
-		ft_putstr("$>");
 		sh->last_res = res;
 		cmd = ft_strfjoin(cmd, " ");
 		cmds = ft_str_to_tab(cmd);
@@ -93,6 +92,7 @@ int		minishell(t_sh *sh)
 		if (cmds)
 			ft_free_tab(cmds);
 		cmds = NULL;
+		ft_putstr("$>");
 	}
 	if (sh->env)
 		ft_free_tab(sh->env);
