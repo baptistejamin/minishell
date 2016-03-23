@@ -14,13 +14,13 @@
 
 int		minishell_builtins_unsetenv_error_missing(void)
 {
-	ft_putendl_fd("setenv: You must provide a variable", 2);
+	ft_putendl_fd("unsetenv: You must provide a variable", 2);
 	return (2);
 }
 
 int		minishell_builtins_unsetenv_error_two_many(void)
 {
-	ft_putendl_fd("setenv: Two many arguments", 2);
+	ft_putendl_fd("unsetenv: Two many arguments", 2);
 	return (2);
 }
 
