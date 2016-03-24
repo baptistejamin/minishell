@@ -14,7 +14,7 @@
 
 char	*minishell_env_get(t_list *list, char *var)
 {
-	t_env		*env;
+	t_env	*env;
 	t_list	*cur;
 
 	cur = list;
@@ -30,7 +30,7 @@ char	*minishell_env_get(t_list *list, char *var)
 
 void	minishell_env_show(t_list *list)
 {
-	t_env		*env;
+	t_env	*env;
 	t_list	*cur;
 
 	cur = list;
