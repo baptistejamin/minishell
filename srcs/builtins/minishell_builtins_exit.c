@@ -33,7 +33,6 @@ int			minishell_assert_digit(char *str)
 	return (1);
 }
 
-
 static int	minishell_builtins_exit_process(t_sh *sh)
 {
 	if (sh->env_list)
@@ -43,7 +42,6 @@ static int	minishell_builtins_exit_process(t_sh *sh)
 	}
 	exit(sh->last_res);
 }
-
 
 int			minishell_builtins_exit(void *sh_, char **cmds)
 {
