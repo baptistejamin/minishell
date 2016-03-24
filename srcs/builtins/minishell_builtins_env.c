@@ -11,16 +11,16 @@
 /* ************************************************************************** */
 
 #include <minishell.h>
-#include <stdio.h>
 
-
-static 	int minishell_builtins_env_set_vars(t_generic_options *options, t_list **list, char **cmds)
+static int	minishell_builtins_env_set_vars(t_generic_options *options,
+											t_list **list, char **cmds)
 {
-	int i;
-	char *var;
-	char *value;
+	int		i;
+	char	*var;
+	char	*value;
+
 	i = options->start;
-	while(cmds[i])
+	while (cmds[i])
 	{
 		if (ft_strchr(cmds[i], '='))
 		{
@@ -40,16 +40,15 @@ static 	int minishell_builtins_env_set_vars(t_generic_options *options, t_list *
 	return (i);
 }
 
-int	minishell_builtins_env(void *sh_, char **cmds)
+int			minishell_builtins_env(void *sh_, char **cmds)
 {
-	t_sh							*sh;
+	t_sh				*sh;
 	t_generic_options	options;
-	t_list						*new_env;
-	int								cmd_index;
+	t_list				*new_env;
+	int					cmd_index;
 
 	sh = (t_sh *)sh_;
 	options = minishell_builtins_options_parser(cmds, "i");
-
 	new_env = NULL;
 	if (!ft_is_in(options.options, 'i'))
 		ft_lstcpy(&new_env, sh->env_list);
@@ -57,9 +56,8 @@ int	minishell_builtins_env(void *sh_, char **cmds)
 	if (!cmds[cmd_index])
 		minishell_env_show(new_env);
 	else
-	{
 		minishell_boot(sh, new_env, &cmds[cmd_index]);
-	}
-
+	if (new_env)
+		ft_lstdel(&new_env, &minishell_builtins_unsetenv_free);
 	return (0);
 }

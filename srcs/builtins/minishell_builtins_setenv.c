@@ -12,21 +12,22 @@
 
 #include <minishell.h>
 
-static int		minishell_builtins_setenv_error_missing(void)
+static int	minishell_builtins_setenv_error_missing(void)
 {
 	ft_putendl_fd("setenv: You must provide a variable", 2);
 	return (2);
 }
 
-static int		minishell_builtins_setenv_error_two_many(void)
+static int	minishell_builtins_setenv_error_two_many(void)
 {
 	ft_putendl_fd("setenv: Two many arguments", 2);
 	return (2);
 }
 
-void minishell_builtins_setenv_add(t_list **list, char *var, char *value)
+void		minishell_builtins_setenv_add(t_list **list, char *var,
+				char *value)
 {
-	t_env 	*env;
+	t_env	*env;
 
 	env = malloc(sizeof(t_env));
 	env->var = ft_strdup(var);
@@ -34,10 +35,11 @@ void minishell_builtins_setenv_add(t_list **list, char *var, char *value)
 	ft_lstadd(list, ft_lstnew(env, sizeof(t_env)));
 }
 
-int		minishell_builtins_setenv_set(t_list **list, char *var, char *value)
+int			minishell_builtins_setenv_set(t_list **list, char *var,
+				char *value)
 {
-	t_list		*cur;
-	t_env			*env;
+	t_list	*cur;
+	t_env	*env;
 
 	cur = *list;
 	while (cur)
@@ -55,7 +57,7 @@ int		minishell_builtins_setenv_set(t_list **list, char *var, char *value)
 	return (0);
 }
 
-int		minishell_builtins_setenv(void *sh_, char **cmds)
+int			minishell_builtins_setenv(void *sh_, char **cmds)
 {
 	t_sh	*sh;
 	int		i;

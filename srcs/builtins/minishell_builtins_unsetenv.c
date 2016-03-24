@@ -6,62 +6,11 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 14:06:11 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/15 13:10:37 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/24 19:49:01 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-#include <stdio.h>
-#include <ctype.h>
-
-#ifndef HEXDUMP_COLS
-#define HEXDUMP_COLS 8
-#endif
-
-void hexdump(void *mem, unsigned int len)
-{
-        unsigned int i, j;
-
-        for(i = 0; i < len + ((len % HEXDUMP_COLS) ? (HEXDUMP_COLS - len % HEXDUMP_COLS) : 0); i++)
-        {
-                /* print offset */
-                if(i % HEXDUMP_COLS == 0)
-                {
-                        printf("0x%06x: ", i);
-                }
-
-                /* print hex data */
-                if(i < len)
-                {
-                        printf("%02x ", 0xFF & ((char*)mem)[i]);
-                }
-                else /* end of block, just aligning for ASCII dump */
-                {
-                        printf("   ");
-                }
-
-                /* print ASCII dump */
-                if(i % HEXDUMP_COLS == (HEXDUMP_COLS - 1))
-                {
-                        for(j = i - (HEXDUMP_COLS - 1); j <= i; j++)
-                        {
-                                if(j >= len) /* end of block, not really printing */
-                                {
-                                        putchar(' ');
-                                }
-                                else if(isprint(((char*)mem)[j])) /* printable char */
-                                {
-                                        putchar(0xFF & ((char*)mem)[j]);
-                                }
-                                else /* other char */
-                                {
-                                        putchar('.');
-                                }
-                        }
-                        putchar('\n');
-                }
-        }
-}
 
 int		minishell_builtins_unsetenv_error_missing(void)
 {
@@ -81,7 +30,6 @@ void	minishell_builtins_unsetenv_free(void *content, size_t size)
 
 	UNUSED(size);
 	env = content;
-
 	if (!content)
 		return ;
 	if (env->var)
@@ -94,7 +42,7 @@ void	minishell_builtins_unsetenv_free(void *content, size_t size)
 int		minishell_builtins_unsetenv(void *sh_, char **cmds)
 {
 	t_sh		*sh;
-	t_list	*cur;
+	t_list		*cur;
 	t_env		*env;
 	int			i;
 

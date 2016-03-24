@@ -15,6 +15,7 @@
 char	*minishell_env_get(t_list *list, char *var)
 {
 	t_env *env;
+
 	while (list)
 	{
 		env = list->content;
@@ -41,7 +42,7 @@ void	minishell_env_show(t_list *list)
 
 void	minishell_env_to_list(t_list **list, char **environ)
 {
-	int 	i;
+	int		i;
 	t_env	*env;
 
 	i = 0;
@@ -60,9 +61,9 @@ void	minishell_env_to_list(t_list **list, char **environ)
 
 char	**minishell_env_from_list(t_list *list)
 {
-	int 	i;
-	char 	**environ;
-	t_env *env;
+	int		i;
+	char	**environ;
+	t_env	*env;
 
 	environ = malloc(sizeof(char *) * (ft_lstcount(list) + 1));
 	i = 0;

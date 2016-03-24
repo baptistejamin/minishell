@@ -14,6 +14,7 @@
 NAME			= minishell
 LIB				=	./libft/libft.a
 _SRC			= 	minishell.c \
+					minishell_cmd.c \
 					minishell_env.c \
 					minishell_errors.c \
 					minishell_signals.c \
