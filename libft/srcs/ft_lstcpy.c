@@ -12,11 +12,11 @@
 
 #include <libft.h>
 
-void  ft_lstcpy(t_list **dest, t_list *src)
+void	ft_lstcpy(t_list **dest, t_list *src)
 {
-  while (src)
-  {
-    ft_lstadd(dest, ft_lstnew(src->content, src->content_size));
-    src = src->next;
-  }
+	while (src)
+	{
+		ft_lstadd(dest, ft_lstnew(src->content, src->content_size));
+		src = src->next;
+	}
 }
