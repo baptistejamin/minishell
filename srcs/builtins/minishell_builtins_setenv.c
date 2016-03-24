@@ -12,39 +12,61 @@
 
 #include <minishell.h>
 
-int		minishell_builtins_setenv_error_missing(void)
+static int		minishell_builtins_setenv_error_missing(void)
 {
 	ft_putendl_fd("setenv: You must provide a variable", 2);
 	return (2);
 }
 
-int		minishell_builtins_setenv_error_two_many(void)
+static int		minishell_builtins_setenv_error_two_many(void)
 {
 	ft_putendl_fd("setenv: Two many arguments", 2);
 	return (2);
 }
 
-void	minishell_builtins_addenv(t_sh *sh, char **cmds)
+static void	minishell_builtins_setenv_add(char **env, char *var, char *value)
 {
 	int		i;
 	char	**new;
 
 	i = 0;
 	new = NULL;
-	while (sh->env[i])
+	while (env[i])
 		i++;
 	new = malloc(sizeof(char **) * (i + 2));
 	i = 0;
-	while (sh->env[i])
+	while (env[i])
 	{
-		new[i] = ft_strdup(sh->env[i]);
+		new[i] = ft_strdup(env[i]);
 		i++;
 	}
-	new[i] = ft_strfjoin(ft_strjoin(cmds[1], "="), cmds[2]);
+	new[i] = ft_strfjoin(ft_strjoin(var, "="), value);
 	new[i + 1] = NULL;
-	ft_free_tab(sh->env);
-	sh->env = new;
+	ft_free_tab(env);
+	env = new;
 }
+
+int		minishell_builtins_setenv_set(char **env, char *var, char *value)
+{
+	int		i;
+
+	i = 0;
+	while (env[i])
+	{
+		if ((ft_strncmp(var, env[i], ft_strlen(var)) == 0) &&
+			value)
+		{
+			free(env[i]);
+			env[i] = ft_strfjoin(ft_strjoin(var, "="), value);
+			return (0);
+		}
+		i++;
+	}
+	if (value)
+		minishell_builtins_setenv_add(env, var, value);
+	return (0);
+}
+
 
 int		minishell_builtins_setenv(void *sh_, char **cmds)
 {
@@ -58,18 +80,6 @@ int		minishell_builtins_setenv(void *sh_, char **cmds)
 		return (minishell_builtins_setenv_error_missing());
 	if (cmds[2] && cmds[3])
 		return (minishell_builtins_setenv_error_two_many());
-	while (sh->env[i])
-	{
-		if ((ft_strncmp(cmds[1], sh->env[i], ft_strlen(cmds[1])) == 0) &&
-			cmds[2])
-		{
-			free(sh->env[i]);
-			sh->env[i] = ft_strfjoin(ft_strjoin(cmds[1], "="), cmds[2]);
-			return (0);
-		}
-		i++;
-	}
-	if (cmds[2])
-		minishell_builtins_addenv(sh_, cmds);
+	minishell_builtins_setenv_set(sh->env, cmds[1], cmds[2]);
 	return (0);
 }

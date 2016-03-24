@@ -102,7 +102,6 @@ int		minishell(t_sh *sh)
 int		main(int argc, char **argv, char **environ)
 {
 	t_sh	sh;
-	char	*cmds[4];
 
 	UNUSED(argv);
 	if (argc > 1)
@@ -112,14 +111,10 @@ int		main(int argc, char **argv, char **environ)
 	}
 	minishell_init_builtins(&sh);
 	sh.env = minishell_copy_env(environ);
-	cmds[0] = ft_strdup("setenv");
-	cmds[1] = ft_strdup("SHLVL");
-	cmds[3] = NULL;
 	if (minishell_get_env(&sh, "SHLVL"))
-		cmds[2] = ft_itoa(ft_atoi(minishell_get_env(&sh, "SHLVL")) + 1);
+		minishell_builtins_setenv_set(sh.env, "SHLVL", ft_itoa(ft_atoi(minishell_get_env(&sh, "SHLVL")) + 1));
 	else
-		cmds[2] = ft_itoa(1);
-	minishell_builtins_setenv(&sh, cmds);
+		minishell_builtins_setenv_set(sh.env, "SHLVL", ft_itoa(1));
 	minishell_signals();
 	return (minishell(&sh));
 }

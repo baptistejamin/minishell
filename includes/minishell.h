@@ -59,6 +59,8 @@ int						minishell_builtins_help(void *sh_, char **cmds);
 int						minishell_builtins_pwd(void *sh_, char **cmds);
 int						minishell_builtins_cd(void *sh, char **cmds);
 int						minishell_builtins_env(void *sh_, char **cmds);
+int						minishell_builtins_setenv_set(char **env, char *var,
+							char *value);
 int						minishell_builtins_setenv(void *sh_, char **cmds);
 int						minishell_builtins_unsetenv(void *sh_, char **cmds);
 int						minishell_is_builtin(t_sh *sh, char **cmds);
