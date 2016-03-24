@@ -37,8 +37,8 @@ static int	minishell_builtins_exit_process(t_sh *sh)
 {
 	if (sh->env_list)
 	{
-		free(sh->env_list);
 		ft_lstdel(&sh->env_list, &minishell_builtins_unsetenv_free);
+		free(sh->env_list);
 	}
 	exit(sh->last_res);
 }
