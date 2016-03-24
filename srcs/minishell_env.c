@@ -14,29 +14,33 @@
 
 char	*minishell_env_get(t_list *list, char *var)
 {
-	t_env *env;
+	t_env		*env;
+	t_list	*cur;
 
-	while (list)
+	cur = list;
+	while (cur)
 	{
-		env = list->content;
+		env = cur->content;
 		if (ft_strcmp(var, env->var) == 0)
 			return (env->value);
-		list = list->next;
+		cur = cur->next;
 	}
 	return ("");
 }
 
 void	minishell_env_show(t_list *list)
 {
-	t_env *env;
+	t_env		*env;
+	t_list	*cur;
 
-	while (list)
+	cur = list;
+	while (cur)
 	{
-		env = list->content;
+		env = cur->content;
 		ft_putstr(env->var);
 		ft_putstr("=");
 		ft_putendl(env->value);
-		list = list->next;
+		cur = cur->next;
 	}
 }
 

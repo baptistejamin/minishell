@@ -40,7 +40,23 @@ static int	minishell_builtins_env_set_vars(t_generic_options *options,
 	return (i);
 }
 
-int			minishell_builtins_env(void *sh_, char **cmds)
+static void	ft_envcpy(t_list **dest, t_list *src)
+{
+	t_env	new_env;
+	t_env	*env;
+
+	while (src)
+	{
+		env = src->content;
+		new_env.var = ft_strdup(env->var);
+		new_env.value = ft_strdup(env->value);
+		ft_lstadd(dest, ft_lstnew(&new_env, src->content_size));
+		src = src->next;
+	}
+}
+
+
+int					minishell_builtins_env(void *sh_, char **cmds)
 {
 	t_sh				*sh;
 	t_generic_options	options;
@@ -51,7 +67,7 @@ int			minishell_builtins_env(void *sh_, char **cmds)
 	options = minishell_builtins_options_parser(cmds, "i");
 	new_env = NULL;
 	if (!ft_is_in(options.options, 'i'))
-		ft_lstcpy(&new_env, sh->env_list);
+		ft_envcpy(&new_env, sh->env_list);
 	cmd_index = minishell_builtins_env_set_vars(&options, &new_env, cmds);
 	if (!cmds[cmd_index])
 		minishell_env_show(new_env);
