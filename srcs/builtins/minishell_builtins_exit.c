@@ -12,14 +12,14 @@
 
 #include <minishell.h>
 
-void	minishell_builtins_exit_error_digit(char *param)
+void		minishell_builtins_exit_error_digit(char *param)
 {
 	ft_putstr_fd("exit: ", 2);
 	ft_putstr_fd(param, 2);
 	ft_putstr_fd(": unique numeric argument required\n", 2);
 }
 
-int		minishell_assert_digit(char *str)
+int			minishell_assert_digit(char *str)
 {
 	int	i;
 
@@ -33,7 +33,19 @@ int		minishell_assert_digit(char *str)
 	return (1);
 }
 
-int		minishell_builtins_exit(void *sh_, char **cmds)
+
+static int	minishell_builtins_exit_process(t_sh *sh)
+{
+	if (sh->env_list)
+	{
+		free(sh->env_list);
+		ft_lstdel(&sh->env_list, &minishell_builtins_unsetenv_free);
+	}
+	exit(sh->last_res);
+}
+
+
+int			minishell_builtins_exit(void *sh_, char **cmds)
 {
 	t_sh	*sh;
 
@@ -42,8 +54,7 @@ int		minishell_builtins_exit(void *sh_, char **cmds)
 	{
 		if (minishell_assert_digit(cmds[1]) && !cmds[2])
 		{
-			if (sh->env_list)
-				ft_lstdel(&sh->env_list, &minishell_builtins_unsetenv_free);
+			minishell_builtins_exit_process(sh);
 			exit(ft_atoi(cmds[1]));
 			return (ft_atoi(cmds[1]));
 		}
@@ -55,8 +66,7 @@ int		minishell_builtins_exit(void *sh_, char **cmds)
 	}
 	else
 	{
-		if (sh->env_list)
-			ft_lstdel(&sh->env_list, &minishell_builtins_unsetenv_free);
+		minishell_builtins_exit_process(sh);
 		exit(sh->last_res);
 	}
 	return (sh->last_res);

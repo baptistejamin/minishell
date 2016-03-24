@@ -34,7 +34,10 @@ static int		minishell(t_sh *sh)
 		ft_putstr("$>");
 	}
 	if (sh->env_list)
+	{
 		ft_lstdel(&sh->env_list, &minishell_builtins_unsetenv_free);
+		free(sh->env_list);
+	}
 	return (res);
 }
 
