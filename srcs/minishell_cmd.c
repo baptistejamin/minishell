@@ -32,7 +32,7 @@ static int	file_cmd(t_sh *sh, t_list *environ, char **cmds)
 	return (-1);
 }
 
-static int	minishell_launch_cmd(t_sh *sh, t_list *environ, char *cmd,
+int			minishell_launch_cmd(t_sh *sh, t_list *environ, char *cmd,
 					char **args)
 {
 	pid_t	pid;
@@ -47,7 +47,7 @@ static int	minishell_launch_cmd(t_sh *sh, t_list *environ, char *cmd,
 	return (res);
 }
 
-static int	minishell_boot_cmd(t_sh *sh, t_list *environ, char **cmds)
+int			minishell_boot_cmd(t_sh *sh, t_list *environ, char **cmds)
 {
 	char	**path;
 	char	*tmp;
