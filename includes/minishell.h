@@ -41,30 +41,45 @@ typedef struct			s_generic_options
 	int					options_counter;
 }						t_generic_options;
 
+typedef struct			s_env
+{
+	char				*var;
+	char				*value;
+}						t_env;
+
 typedef struct			s_sh
 {
 	char				**env;
+	t_list			*env_list;
 	int					last_res;
 	t_builtin			builtins[10];
 }						t_sh;
 
 void					minishell_signals();
-char					*minishell_get_env(t_sh *sh, char *var);
+void					minishell_env_to_list(t_list **list, char **environ);
+void					minishell_env_show(t_list *list);
+char					**minishell_env_from_list(t_list *list);
+char					*minishell_env_get(t_list *list, char *var);
 char					**minishell_copy_env(char **env);
 int						minishell_count_env(char **env);
-int						minishell_launch_cmd(t_sh *sh, char *cmd, char **args);
+int						minishell_launch_cmd(t_sh *sh, t_list *environ, char *cmd, char **args);
+int						minishell_boot(t_sh *sh, t_list *environ, char **cmds);
 void					minishell_init_builtins(t_sh *sh);
 int						minishell_builtins_exit(void *sh_, char **cmds);
 int						minishell_builtins_help(void *sh_, char **cmds);
 int						minishell_builtins_pwd(void *sh_, char **cmds);
 int						minishell_builtins_cd(void *sh, char **cmds);
 int						minishell_builtins_env(void *sh_, char **cmds);
-int						minishell_builtins_setenv_set(char **env, char *var,
-							char *value);
+int						minishell_builtins_setenv_set(t_list **list,
+								char *var, char *value);
+void					minishell_builtins_setenv_add(t_list **list, char *var, char *value);
 int						minishell_builtins_setenv(void *sh_, char **cmds);
 int						minishell_builtins_unsetenv(void *sh_, char **cmds);
+void					minishell_builtins_unsetenv_free(void *content,
+								size_t content_size);
 int						minishell_is_builtin(t_sh *sh, char **cmds);
 int						minishell_boot_builtin(t_sh *sh, char **cmds);
+int						minishell_boot_cmd(t_sh *sh, t_list *environ, char **cmds);
 void					minishell_errors_is_directory(char *cmd);
 void					minishell_errors_not_found(char *cmd);
 void					minishell_errors_no_file_directory(char *cmd);

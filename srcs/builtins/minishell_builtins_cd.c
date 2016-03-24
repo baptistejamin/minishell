@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include <minishell.h>
-#include <stdio.h>
 
 static int	cd_move_path(t_sh *sh, t_generic_options *options, char *curpath)
 {
@@ -19,7 +18,7 @@ static int	cd_move_path(t_sh *sh, t_generic_options *options, char *curpath)
 	{
 		if (*curpath == '/')
 			curpath = ft_strfjoin(ft_strjoin(
-				minishell_get_env(sh, "PWD"), "/"), curpath);
+				minishell_env_get(sh->env_list, "PWD"), "/"), curpath);
 		return (minishell_builtins_cd_change_directory(sh, curpath, 1));
 	}
 	else
@@ -40,8 +39,8 @@ int			minishell_builtins_cd(void *sh_, char **cmds)
 		directory = minishell_builtins_cd_assert_home(sh);
 	if (!directory)
 		return (minishell_builtins_cd_error(0, ""));
-	if (ft_strcmp(cmds[1], "-") == 0)
-		directory = minishell_get_env(sh, "OLDPWD");
+	if (cmds[1] && ft_strcmp(cmds[1], "-") == 0)
+		directory = minishell_env_get(sh->env_list, "OLDPWD");
 	if (cmds[1] && cmds[2])
 	{
 		directory = minishell_builtins_cd_assert_multiple_args(sh, cmds);

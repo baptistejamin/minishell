@@ -28,8 +28,8 @@ int	minishell_builtins_pwd(void *sh_, char **cmds)
 		return (1);
 	}
 	if (ft_is_in(options.options, 'P') && !ft_is_in(options.options, 'L') &&
-		*minishell_get_env(sh, "PWD") == '/')
-		ft_putendl(minishell_get_env(sh, "PWD"));
+		*minishell_env_get(sh->env_list, "PWD") == '/')
+		ft_putendl(minishell_env_get(sh->env_list, "PWD"));
 	else
 	{
 		getcwd(path, PATH_MAX);

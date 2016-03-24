@@ -11,6 +11,57 @@
 /* ************************************************************************** */
 
 #include <minishell.h>
+#include <stdio.h>
+#include <ctype.h>
+
+#ifndef HEXDUMP_COLS
+#define HEXDUMP_COLS 8
+#endif
+
+void hexdump(void *mem, unsigned int len)
+{
+        unsigned int i, j;
+
+        for(i = 0; i < len + ((len % HEXDUMP_COLS) ? (HEXDUMP_COLS - len % HEXDUMP_COLS) : 0); i++)
+        {
+                /* print offset */
+                if(i % HEXDUMP_COLS == 0)
+                {
+                        printf("0x%06x: ", i);
+                }
+
+                /* print hex data */
+                if(i < len)
+                {
+                        printf("%02x ", 0xFF & ((char*)mem)[i]);
+                }
+                else /* end of block, just aligning for ASCII dump */
+                {
+                        printf("   ");
+                }
+
+                /* print ASCII dump */
+                if(i % HEXDUMP_COLS == (HEXDUMP_COLS - 1))
+                {
+                        for(j = i - (HEXDUMP_COLS - 1); j <= i; j++)
+                        {
+                                if(j >= len) /* end of block, not really printing */
+                                {
+                                        putchar(' ');
+                                }
+                                else if(isprint(((char*)mem)[j])) /* printable char */
+                                {
+                                        putchar(0xFF & ((char*)mem)[j]);
+                                }
+                                else /* other char */
+                                {
+                                        putchar('.');
+                                }
+                        }
+                        putchar('\n');
+                }
+        }
+}
 
 int		minishell_builtins_unsetenv_error_missing(void)
 {
@@ -24,31 +75,46 @@ int		minishell_builtins_unsetenv_error_two_many(void)
 	return (2);
 }
 
+void	minishell_builtins_unsetenv_free(void *content, size_t size)
+{
+	t_env		*env;
+
+	UNUSED(size);
+	env = content;
+
+	if (!content)
+		return ;
+	if (env->var)
+		free(env->var);
+	if (env->value)
+		free(env->value);
+	free(env);
+}
+
 int		minishell_builtins_unsetenv(void *sh_, char **cmds)
 {
-	t_sh	*sh;
-	char	**new;
-	int		i;
-	int		n;
+	t_sh		*sh;
+	t_list	*cur;
+	t_env		*env;
+	int			i;
 
 	sh = (t_sh *)sh_;
-	new = malloc(sizeof(char **) * (minishell_count_env(sh->env)));
-	i = 0;
-	n = -1;
 	if (!cmds[1])
 		return (minishell_builtins_unsetenv_error_missing());
 	if (cmds[2])
 		return (minishell_builtins_unsetenv_error_two_many());
-	while (sh->env[i])
+	i = 0;
+	cur = sh->env_list;
+	while (cur)
 	{
-		if ((ft_strncmp(cmds[1], sh->env[i], ft_strlen(cmds[1])) != 0))
+		env = cur->content;
+		cur = cur->next;
+		if (ft_strcmp(cmds[1], env->var) == 0)
 		{
-			new[++n] = ft_strdup(sh->env[i]);
+			ft_lstdel_at(&sh->env_list, i, &minishell_builtins_unsetenv_free);
+			return (0);
 		}
 		i++;
 	}
-	new[n] = NULL;
-	ft_free_tab(sh->env);
-	sh->env = new;
 	return (0);
 }

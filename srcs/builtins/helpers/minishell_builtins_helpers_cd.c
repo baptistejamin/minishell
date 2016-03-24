@@ -45,8 +45,8 @@ char	*minishell_builtins_cd_assert_home(t_sh *sh)
 	char	*logname;
 	char	*line;
 
-	logname = minishell_get_env(sh, "LOGNAME");
-	if (*minishell_get_env(sh, "HOME") == '\0')
+	logname = minishell_env_get(sh->env_list, "LOGNAME");
+	if (*minishell_env_get(sh->env_list, "HOME") == '\0')
 	{
 		fd = open("/etc/passwd", O_RDONLY);
 		if (fd < 0 || !*logname)
@@ -59,7 +59,7 @@ char	*minishell_builtins_cd_assert_home(t_sh *sh)
 		close(fd);
 		return (NULL);
 	}
-	return (minishell_get_env(sh, "HOME"));
+	return (minishell_env_get(sh->env_list, "HOME"));
 }
 
 char	*minishell_builtins_cd_assert_multiple_args(t_sh *sh, char **cmds)

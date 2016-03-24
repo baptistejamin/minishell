@@ -96,6 +96,10 @@ t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 t_list				*ft_lstnew(void const *content, size_t content_size);
 void				ft_lstsort(t_list **list,
 	int (*cmp)(void *a_, void *b_), void *(*get_data)(t_list *e));
+void        ft_lstdel_at(t_list **list, int at,
+  void (*del)(void *, size_t));
+int					ft_lstcount(t_list *list);
+void  			ft_lstcpy(t_list **dest, t_list *src);
 void				ft_lstrev(t_list **list);
 int					ft_nblen(int nb);
 void				ft_swap(int *a, int *b);

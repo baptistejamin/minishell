@@ -42,8 +42,8 @@ int		minishell_builtins_exit(void *sh_, char **cmds)
 	{
 		if (minishell_assert_digit(cmds[1]) && !cmds[2])
 		{
-			if (sh->env)
-				ft_free_tab(sh->env);
+			if (sh->env_list)
+				ft_lstdel(&sh->env_list, &minishell_builtins_unsetenv_free);
 			exit(ft_atoi(cmds[1]));
 			return (ft_atoi(cmds[1]));
 		}
@@ -55,8 +55,8 @@ int		minishell_builtins_exit(void *sh_, char **cmds)
 	}
 	else
 	{
-		if (sh->env)
-			ft_free_tab(sh->env);
+		if (sh->env_list)
+			ft_lstdel(&sh->env_list, &minishell_builtins_unsetenv_free);
 		exit(sh->last_res);
 	}
 	return (sh->last_res);

@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-int		file_cmd(t_sh *sh, char **cmds)
+int		file_cmd(t_sh *sh, t_list *environ, char **cmds)
 {
 	struct stat stat_;
 
@@ -27,39 +27,40 @@ int		file_cmd(t_sh *sh, char **cmds)
 		return (-1);
 	}
 	if (access(cmds[0], X_OK) == 0)
-		return (minishell_launch_cmd(sh, cmds[0], cmds));
+		return (minishell_launch_cmd(sh, environ, cmds[0], cmds));
 	minishell_errors_no_file_directory(cmds[0]);
 	return (-1);
 }
 
-int		minishell_launch_cmd(t_sh *sh, char *cmd, char **args)
+int		minishell_launch_cmd(t_sh *sh, t_list *environ, char *cmd, char **args)
 {
 	pid_t	pid;
 	int		res;
 
+	UNUSED(sh);
 	res = -1;
 	if ((pid = fork()) != 0)
 		waitpid(pid, &res, 0);
 	else
-		execve(cmd, args, sh->env);
+		execve(cmd, args, minishell_env_from_list(environ));
 	return (res);
 }
 
-int		boot_cmd(t_sh *sh, char **cmds)
+int		minishell_boot_cmd(t_sh *sh, t_list *environ, char **cmds)
 {
 	char	**path;
 	char	*tmp;
 	int		i;
 
-	path = ft_strsplit(minishell_get_env(sh, "PATH"), ':');
+	path = ft_strsplit(minishell_env_get(sh->env_list, "PATH"), ':');
 	i = 0;
 	if (ft_strchr(cmds[0], '/') != NULL)
-		return (file_cmd(sh, cmds));
+		return (file_cmd(sh, environ, cmds));
 	while (path && path[i])
 	{
 		tmp = ft_strfjoin(ft_strjoin(path[i], "/"), cmds[0]);
 		if (access(tmp, X_OK) == 0)
-			return (minishell_launch_cmd(sh, tmp, cmds));
+			return (minishell_launch_cmd(sh, environ, tmp, cmds));
 		free(tmp);
 		tmp = NULL;
 		i++;
@@ -67,6 +68,15 @@ int		boot_cmd(t_sh *sh, char **cmds)
 	minishell_errors_not_found(cmds[0]);
 	if (path)
 		ft_free_tab(path);
+	return (-1);
+}
+
+int		minishell_boot(t_sh *sh, t_list *environ, char **cmds)
+{
+	if (cmds[0] && minishell_is_builtin(sh, cmds))
+		return (minishell_boot_builtin(sh, cmds));
+	else if (cmds[0])
+		return (minishell_boot_cmd(sh, environ, cmds));
 	return (-1);
 }
 
@@ -83,10 +93,7 @@ int		minishell(t_sh *sh)
 		sh->last_res = res;
 		cmd = ft_strfjoin(cmd, " ");
 		cmds = ft_str_to_tab(cmd);
-		if (cmds[0] && minishell_is_builtin(sh, cmds))
-			res = minishell_boot_builtin(sh, cmds);
-		else if (cmds[0] && ft_strcmp(cmd, " ") != 0)
-			res = boot_cmd(sh, cmds);
+		res = minishell_boot(sh, sh->env_list, cmds);
 		if (cmd)
 			free(cmd);
 		if (cmds)
@@ -94,14 +101,15 @@ int		minishell(t_sh *sh)
 		cmds = NULL;
 		ft_putstr("$>");
 	}
-	if (sh->env)
-		ft_free_tab(sh->env);
+	if (sh->env_list)
+		ft_lstdel(&sh->env_list, &minishell_builtins_unsetenv_free);
 	return (res);
 }
 
 int		main(int argc, char **argv, char **environ)
 {
 	t_sh	sh;
+	char 	*nb;
 
 	UNUSED(argv);
 	if (argc > 1)
@@ -110,11 +118,20 @@ int		main(int argc, char **argv, char **environ)
 		return (0);
 	}
 	minishell_init_builtins(&sh);
-	sh.env = minishell_copy_env(environ);
-	if (minishell_get_env(&sh, "SHLVL"))
-		minishell_builtins_setenv_set(sh.env, "SHLVL", ft_itoa(ft_atoi(minishell_get_env(&sh, "SHLVL")) + 1));
+	sh.env_list = NULL;
+	minishell_env_to_list(&sh.env_list, environ);
+	if (minishell_env_get(sh.env_list, "SHLVL"))
+	{
+		nb = ft_itoa(ft_atoi(minishell_env_get(sh.env_list, "SHLVL")) + 1);
+		minishell_builtins_setenv_set(&sh.env_list, "SHLVL", nb);
+	}
 	else
-		minishell_builtins_setenv_set(sh.env, "SHLVL", ft_itoa(1));
+	{
+		nb = ft_itoa(1);
+		minishell_builtins_setenv_set(&sh.env_list, "SHLVL", nb);
+	}
+	if (nb)
+		free(nb);
 	minishell_signals();
 	return (minishell(&sh));
 }

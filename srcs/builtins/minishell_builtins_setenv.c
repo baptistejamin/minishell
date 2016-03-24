@@ -24,49 +24,36 @@ static int		minishell_builtins_setenv_error_two_many(void)
 	return (2);
 }
 
-static void	minishell_builtins_setenv_add(char **env, char *var, char *value)
+void minishell_builtins_setenv_add(t_list **list, char *var, char *value)
 {
-	int		i;
-	char	**new;
+	t_env 	*env;
 
-	i = 0;
-	new = NULL;
-	while (env[i])
-		i++;
-	new = malloc(sizeof(char **) * (i + 2));
-	i = 0;
-	while (env[i])
-	{
-		new[i] = ft_strdup(env[i]);
-		i++;
-	}
-	new[i] = ft_strfjoin(ft_strjoin(var, "="), value);
-	new[i + 1] = NULL;
-	ft_free_tab(env);
-	env = new;
+	env = malloc(sizeof(t_env));
+	env->var = ft_strdup(var);
+	env->value = ft_strdup(value);
+	ft_lstadd(list, ft_lstnew(env, sizeof(t_env)));
 }
 
-int		minishell_builtins_setenv_set(char **env, char *var, char *value)
+int		minishell_builtins_setenv_set(t_list **list, char *var, char *value)
 {
-	int		i;
+	t_list		*cur;
+	t_env			*env;
 
-	i = 0;
-	while (env[i])
+	cur = *list;
+	while (cur)
 	{
-		if ((ft_strncmp(var, env[i], ft_strlen(var)) == 0) &&
-			value)
+		env = cur->content;
+		if (ft_strcmp(env->var, var) == 0)
 		{
-			free(env[i]);
-			env[i] = ft_strfjoin(ft_strjoin(var, "="), value);
+			free(env->value);
+			env->value = ft_strdup(value);
 			return (0);
 		}
-		i++;
+		cur = cur->next;
 	}
-	if (value)
-		minishell_builtins_setenv_add(env, var, value);
+	minishell_builtins_setenv_add(list, var, value);
 	return (0);
 }
-
 
 int		minishell_builtins_setenv(void *sh_, char **cmds)
 {
@@ -80,6 +67,6 @@ int		minishell_builtins_setenv(void *sh_, char **cmds)
 		return (minishell_builtins_setenv_error_missing());
 	if (cmds[2] && cmds[3])
 		return (minishell_builtins_setenv_error_two_many());
-	minishell_builtins_setenv_set(sh->env, cmds[1], cmds[2]);
+	minishell_builtins_setenv_set(&sh->env_list, cmds[1], cmds[2]);
 	return (0);
 }

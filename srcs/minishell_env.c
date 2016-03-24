@@ -12,43 +12,67 @@
 
 #include <minishell.h>
 
-char	**minishell_copy_env(char **env)
+char	*minishell_env_get(t_list *list, char *var)
 {
-	int		i;
-	char	**new;
-
-	new = malloc(sizeof(char **) * (minishell_count_env(env) + 1));
-	i = 0;
-	while (new && env[i])
+	t_env *env;
+	while (list)
 	{
-		new[i] = ft_strdup(env[i]);
-		i++;
-	}
-	if (new)
-		new[i] = NULL;
-	return (new);
-}
-
-int		minishell_count_env(char **env)
-{
-	int		i;
-
-	i = 0;
-	while (env[i])
-		i++;
-	return (i);
-}
-
-char	*minishell_get_env(t_sh *sh, char *var)
-{
-	int	i;
-
-	i = 0;
-	while (sh->env[i])
-	{
-		if (ft_strncmp(sh->env[i], var, ft_strlen(var)) == 0)
-			return (ft_strchr(sh->env[i], '=') + 1);
-		i++;
+		env = list->content;
+		if (ft_strcmp(var, env->var) == 0)
+			return (env->value);
+		list = list->next;
 	}
 	return ("");
+}
+
+void	minishell_env_show(t_list *list)
+{
+	t_env *env;
+
+	while (list)
+	{
+		env = list->content;
+		ft_putstr(env->var);
+		ft_putstr("=");
+		ft_putendl(env->value);
+		list = list->next;
+	}
+}
+
+void	minishell_env_to_list(t_list **list, char **environ)
+{
+	int 	i;
+	t_env	*env;
+
+	i = 0;
+	while (environ[i])
+	{
+		env = malloc(sizeof(t_env));
+		env->var = ft_strnew(ft_strlen(environ[i]) -
+			ft_strlen(ft_strchr(environ[i], '=') + 1));
+		ft_strncpy(env->var, environ[i], ft_strlen(environ[i]) -
+			ft_strlen(ft_strchr(environ[i], '=')));
+		env->value = ft_strdup(ft_strchr(environ[i], '=') + 1);
+		ft_lstadd(list, ft_lstnew(env, sizeof(t_env)));
+		i++;
+	}
+}
+
+char	**minishell_env_from_list(t_list *list)
+{
+	int 	i;
+	char 	**environ;
+	t_env *env;
+
+	environ = malloc(sizeof(char *) * (ft_lstcount(list) + 1));
+	i = 0;
+	while (list)
+	{
+		env = list->content;
+		environ[i] = ft_strfjoin(ft_strjoin(env->var, "="), env->value);
+		list = list->next;
+		i++;
+	}
+	environ[i] = NULL;
+	return (environ);
 }
