@@ -62,7 +62,10 @@ int			minishell_boot_cmd(t_sh *sh, t_list *environ, char **cmds)
 	{
 		tmp = ft_strfjoin(ft_strjoin(path[i], "/"), cmds[0]);
 		if (access(tmp, X_OK) == 0)
+		{
+			ft_free_tab(path);
 			return (minishell_launch_cmd(sh, environ, tmp, cmds));
+		}
 		free(tmp);
 		tmp = NULL;
 		i++;
