@@ -48,7 +48,8 @@ int			minishell_builtins_cd(void *sh_, t_list *environ, char **cmds)
 		directory = minishell_env_get(environ, "OLDPWD");
 	if (cmds[options.start] && cmds[options.start + 1])
 	{
-		directory = minishell_builtins_cd_assert_multiple_args(sh, cmds, &options);
+		directory = minishell_builtins_cd_assert_multiple_args(sh, cmds,
+			&options);
 		if (!directory)
 			return (1);
 	}

@@ -64,7 +64,7 @@ char	*minishell_builtins_cd_assert_home(t_sh *sh, t_list *environ)
 }
 
 char	*minishell_builtins_cd_assert_multiple_args(t_sh *sh, char **cmds,
-	t_generic_options	*options)
+												t_generic_options *options)
 {
 	char	cdpath[PATH_MAX];
 	char	directory[PATH_MAX];
