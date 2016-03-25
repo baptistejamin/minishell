@@ -96,9 +96,9 @@ char	*minishell_builtins_cd_assert_multiple_args(t_sh *sh, char **cmds,
 void	minishell_builtins_cd_update_path(t_sh *sh, t_list **environ,
 											char *old_path, char *path)
 {
-	UNUSED(sh);
+	UNUSED(environ);
 	minishell_builtins_setenv_set(environ, "OLDPWD", old_path);
-	minishell_builtins_setenv_set(environ, "PWD", path);
+	minishell_builtins_setenv_set(&sh->env_list, "PWD", path);
 }
 
 int		minishell_builtins_cd_change_directory(t_sh *sh, t_list **environ,
