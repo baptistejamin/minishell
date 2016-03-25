@@ -33,7 +33,7 @@ void	minishell_init_builtins(t_sh *sh)
 	minishell_init_builtin(&sh->builtins[7], "", &minishell_builtins_exit);
 }
 
-int		minishell_boot_builtin(t_sh *sh, char **cmds)
+int		minishell_boot_builtin(t_sh *sh, t_list *environ, char **cmds)
 {
 	int i;
 
@@ -41,7 +41,7 @@ int		minishell_boot_builtin(t_sh *sh, char **cmds)
 	while (sh->builtins[i].name[0] != '\0')
 	{
 		if (ft_strcmp(sh->builtins[i].name, cmds[0]) == 0)
-			return (sh->builtins[i].func(sh, cmds));
+			return (sh->builtins[i].func(sh, environ, cmds));
 		i++;
 	}
 	return (0);

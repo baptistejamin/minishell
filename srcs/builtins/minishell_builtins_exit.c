@@ -33,8 +33,9 @@ int			minishell_assert_digit(char *str)
 	return (1);
 }
 
-static int	minishell_builtins_exit_process(t_sh *sh)
+static int	minishell_builtins_exit_process(t_sh *sh, t_list *environ)
 {
+	UNUSED(environ);
 	if (sh->env_list)
 	{
 		ft_lstdel(&sh->env_list, &minishell_builtins_unsetenv_free);
@@ -43,7 +44,7 @@ static int	minishell_builtins_exit_process(t_sh *sh)
 	exit(sh->last_res);
 }
 
-int			minishell_builtins_exit(void *sh_, char **cmds)
+int			minishell_builtins_exit(void *sh_, t_list *environ, char **cmds)
 {
 	t_sh	*sh;
 
@@ -52,7 +53,7 @@ int			minishell_builtins_exit(void *sh_, char **cmds)
 	{
 		if (minishell_assert_digit(cmds[1]) && !cmds[2])
 		{
-			minishell_builtins_exit_process(sh);
+			minishell_builtins_exit_process(sh, environ);
 			exit(ft_atoi(cmds[1]));
 			return (ft_atoi(cmds[1]));
 		}
@@ -64,7 +65,7 @@ int			minishell_builtins_exit(void *sh_, char **cmds)
 	}
 	else
 	{
-		minishell_builtins_exit_process(sh);
+		minishell_builtins_exit_process(sh, environ);
 		exit(sh->last_res);
 	}
 	return (sh->last_res);

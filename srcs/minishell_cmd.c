@@ -78,7 +78,7 @@ int			minishell_boot_cmd(t_sh *sh, t_list *environ, char **cmds)
 int			minishell_boot(t_sh *sh, t_list *environ, char **cmds)
 {
 	if (cmds[0] && minishell_is_builtin(sh, cmds))
-		return (minishell_boot_builtin(sh, cmds));
+		return (minishell_boot_builtin(sh, environ, cmds));
 	else if (cmds[0])
 		return (minishell_boot_cmd(sh, environ, cmds));
 	return (-1);

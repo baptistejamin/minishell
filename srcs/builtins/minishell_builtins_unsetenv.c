@@ -39,7 +39,7 @@ void	minishell_builtins_unsetenv_free(void *content, size_t size)
 	free(env);
 }
 
-int		minishell_builtins_unsetenv(void *sh_, char **cmds)
+int		minishell_builtins_unsetenv(void *sh_, t_list *environ, char **cmds)
 {
 	t_sh		*sh;
 	t_list		*cur;
@@ -59,7 +59,7 @@ int		minishell_builtins_unsetenv(void *sh_, char **cmds)
 		cur = cur->next;
 		if (ft_strcmp(cmds[1], env->var) == 0)
 		{
-			ft_lstdel_at(&sh->env_list, i, &minishell_builtins_unsetenv_free);
+			ft_lstdel_at(&environ, i, &minishell_builtins_unsetenv_free);
 			return (0);
 		}
 		i++;

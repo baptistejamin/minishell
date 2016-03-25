@@ -12,10 +12,11 @@
 
 #include <minishell.h>
 
-int		minishell_builtins_help(void *sh_, char **cmds)
+int		minishell_builtins_help(void *sh_, t_list *environ, char **cmds)
 {
 	UNUSED(sh_);
 	UNUSED(cmds);
+	UNUSED(environ);
 	ft_putendl("help:\n");
 	ft_putendl("builtins:");
 	ft_putendl("cd [-LP] [path]");

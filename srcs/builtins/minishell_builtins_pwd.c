@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-int	minishell_builtins_pwd(void *sh_, char **cmds)
+int	minishell_builtins_pwd(void *sh_, t_list *environ, char **cmds)
 {
 	t_sh				*sh;
 	char				path[PATH_MAX];
@@ -28,8 +28,8 @@ int	minishell_builtins_pwd(void *sh_, char **cmds)
 		return (1);
 	}
 	if (ft_is_in(options.options, 'P') && !ft_is_in(options.options, 'L') &&
-		*minishell_env_get(sh->env_list, "PWD") == '/')
-		ft_putendl(minishell_env_get(sh->env_list, "PWD"));
+		*minishell_env_get(environ, "PWD") == '/')
+		ft_putendl(minishell_env_get(environ, "PWD"));
 	else
 	{
 		getcwd(path, PATH_MAX);

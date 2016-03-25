@@ -39,14 +39,15 @@ int		minishell_builtins_cd_error(int type, char *path)
 	return (1);
 }
 
-char	*minishell_builtins_cd_assert_home(t_sh *sh)
+char	*minishell_builtins_cd_assert_home(t_sh *sh, t_list *environ)
 {
 	int		fd;
 	char	*logname;
 	char	*line;
 
-	logname = minishell_env_get(sh->env_list, "LOGNAME");
-	if (*minishell_env_get(sh->env_list, "HOME") == '\0')
+	UNUSED(sh);
+	logname = minishell_env_get(environ, "LOGNAME");
+	if (*minishell_env_get(environ, "HOME") == '\0')
 	{
 		fd = open("/etc/passwd", O_RDONLY);
 		if (fd < 0 || !*logname)
@@ -59,7 +60,7 @@ char	*minishell_builtins_cd_assert_home(t_sh *sh)
 		close(fd);
 		return (NULL);
 	}
-	return (minishell_env_get(sh->env_list, "HOME"));
+	return (minishell_env_get(environ, "HOME"));
 }
 
 char	*minishell_builtins_cd_assert_multiple_args(t_sh *sh, char **cmds)
@@ -89,23 +90,16 @@ char	*minishell_builtins_cd_assert_multiple_args(t_sh *sh, char **cmds)
 	return (NULL);
 }
 
-void	minishell_builtins_cd_update_path(t_sh *sh, char *old_path, char *path)
+void	minishell_builtins_cd_update_path(t_sh *sh, t_list *environ,
+											char *old_path, char *path)
 {
-	char	*cmds[4];
-
-	cmds[0] = ft_strdup("setenv");
-	cmds[1] = ft_strdup("OLDPWD");
-	cmds[2] = old_path;
-	cmds[3] = NULL;
-	minishell_builtins_setenv(sh, cmds);
-	cmds[0] = ft_strdup("setenv");
-	cmds[1] = ft_strdup("PWD");
-	cmds[2] = path;
-	minishell_builtins_setenv(sh, cmds);
+	UNUSED(sh);
+	minishell_builtins_setenv_set(&environ, "OLDPWD", old_path);
+	minishell_builtins_setenv_set(&environ, "PWD", path);
 }
 
-int		minishell_builtins_cd_change_directory(t_sh *sh, char *curpath,
-												int is_physical)
+int		minishell_builtins_cd_change_directory(t_sh *sh, t_list *environ,
+												char *curpath, int is_physical)
 {
 	t_stat		stat_;
 	char		old_path[PATH_MAX];
@@ -120,10 +114,10 @@ int		minishell_builtins_cd_change_directory(t_sh *sh, char *curpath,
 		return (minishell_builtins_cd_error(5, curpath));
 	getcwd(new_path, 256);
 	if (is_physical)
-		minishell_builtins_cd_update_path(sh, ft_strdup(old_path),
+		minishell_builtins_cd_update_path(sh, environ, ft_strdup(old_path),
 		curpath);
 	else
-		minishell_builtins_cd_update_path(sh, ft_strdup(old_path),
+		minishell_builtins_cd_update_path(sh, environ, ft_strdup(old_path),
 		ft_strdup(new_path));
 	return (0);
 }
