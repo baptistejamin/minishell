@@ -97,9 +97,9 @@ void				minishell_errors_no_file_directory(char *cmd);
 t_generic_options	minishell_builtins_options_parser(char **cmds,
 							char *managed_options);
 int					minishell_builtins_cd_change_directory(t_sh *sh,
-							t_list *environ, char *curpath, int is_physical);
+							t_list **environ, char *curpath, int is_physical);
 void				minishell_builtins_cd_update_path(t_sh *sh,
-							t_list *environ, char *old_path, char *path);
+							t_list **environ, char *old_path, char *path);
 char				*minishell_builtins_cd_assert_multiple_args(t_sh *sh,
 							char **cmds, t_generic_options *options);
 char				*minishell_builtins_cd_assert_home(t_sh *sh,

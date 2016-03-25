@@ -20,11 +20,11 @@ static int	cd_move_path(t_sh *sh, t_list *environ,
 		if (*curpath == '/')
 			curpath = ft_strfjoin(ft_strjoin(
 				minishell_env_get(environ, "PWD"), "/"), curpath);
-		return (minishell_builtins_cd_change_directory(sh, environ,
+		return (minishell_builtins_cd_change_directory(sh, &environ,
 					curpath, 1));
 	}
 	else
-		return (minishell_builtins_cd_change_directory(sh, environ,
+		return (minishell_builtins_cd_change_directory(sh, &environ,
 					curpath, 0));
 }
 
