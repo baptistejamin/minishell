@@ -64,6 +64,13 @@ int			minishell_builtins_env(void *sh_, t_list *environ, char **cmds)
 
 	sh = (t_sh *)sh_;
 	options = minishell_builtins_options_parser(cmds, "i");
+	if (options.error)
+	{
+		ft_putstr_fd("env: illegal option -- ", 2);
+		ft_putchar_fd(options.error_char, 2);
+		ft_putstr_fd("\n", 2);
+		return (1);
+	}
 	new_env = NULL;
 	if (!ft_is_in(options.options, 'i'))
 		ft_envcpy(&new_env, environ);
