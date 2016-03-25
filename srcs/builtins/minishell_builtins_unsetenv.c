@@ -47,6 +47,7 @@ int		minishell_builtins_unsetenv(void *sh_, t_list *environ, char **cmds)
 	int			i;
 
 	sh = (t_sh *)sh_;
+	UNUSED(environ);
 	if (!cmds[1])
 		return (minishell_builtins_unsetenv_error_missing());
 	if (cmds[2])
@@ -59,7 +60,7 @@ int		minishell_builtins_unsetenv(void *sh_, t_list *environ, char **cmds)
 		cur = cur->next;
 		if (ft_strcmp(cmds[1], env->var) == 0)
 		{
-			ft_lstdel_at(&environ, i, &minishell_builtins_unsetenv_free);
+			ft_lstdel_at(&sh->env_list, i, &minishell_builtins_unsetenv_free);
 			return (0);
 		}
 		i++;

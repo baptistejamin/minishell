@@ -63,12 +63,13 @@ int			minishell_builtins_setenv(void *sh_, t_list *environ, char **cmds)
 	int		i;
 
 	UNUSED(cmds);
+	UNUSED(environ);
 	sh = (t_sh *)sh_;
 	i = 0;
 	if (!cmds[1] || (cmds[1] && !cmds[2]))
 		return (minishell_builtins_setenv_error_missing());
 	if (cmds[2] && cmds[3])
 		return (minishell_builtins_setenv_error_two_many());
-	minishell_builtins_setenv_set(&environ, cmds[1], cmds[2]);
+	minishell_builtins_setenv_set(&sh->env_list, cmds[1], cmds[2]);
 	return (0);
 }
