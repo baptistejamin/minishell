@@ -55,8 +55,7 @@ static void	ft_envcpy(t_list **dest, t_list *src)
 	}
 }
 
-
-int					minishell_builtins_env(void *sh_, char **cmds)
+int			minishell_builtins_env(void *sh_, char **cmds)
 {
 	t_sh				*sh;
 	t_generic_options	options;

@@ -44,7 +44,6 @@ int			minishell_launch_cmd(t_sh *sh, t_list *environ, char *cmd,
 		waitpid(pid, &res, 0);
 	else
 		execve(cmd, args, minishell_env_from_list(environ));
-	free(cmd);
 	return (res);
 }
 
