@@ -37,7 +37,7 @@ int			minishell_builtins_cd(void *sh_, t_list *environ, char **cmds)
 
 	sh = (t_sh *)sh_;
 	options = minishell_builtins_options_parser(cmds, "LP");
-	if (options.start > 1 && !cmds[options.start])
+	if (!cmds[options.start] && ft_strcmp(cmds[options.start - 1], "-") == 0)
 		options.start--;
 	directory = cmds[options.start];
 	if (!directory || ft_strcmp(cmds[options.start], "~") == 0)
