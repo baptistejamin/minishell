@@ -38,15 +38,17 @@ int			minishell_builtins_cd(void *sh_, t_list *environ, char **cmds)
 	sh = (t_sh *)sh_;
 	options = minishell_builtins_options_parser(cmds, "LP");
 	directory = cmds[options.start];
-	if (!directory || ft_strcmp(cmds[1], "~") == 0)
+	if (options.start > 1 && !cmds[options.start])
+		options.start--;
+	if (!directory || ft_strcmp(cmds[options.start], "~") == 0)
 		directory = minishell_builtins_cd_assert_home(sh, environ);
 	if (!directory)
 		return (minishell_builtins_cd_error(0, ""));
-	if (cmds[1] && ft_strcmp(cmds[1], "-") == 0)
+	if (cmds[options.start] && ft_strcmp(cmds[options.start], "-") == 0)
 		directory = minishell_env_get(environ, "OLDPWD");
-	if (cmds[1] && cmds[2])
+	if (cmds[options.start] && cmds[options.start + 1])
 	{
-		directory = minishell_builtins_cd_assert_multiple_args(sh, cmds);
+		directory = minishell_builtins_cd_assert_multiple_args(sh, cmds, &options);
 		if (!directory)
 			return (1);
 	}

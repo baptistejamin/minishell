@@ -63,28 +63,31 @@ char	*minishell_builtins_cd_assert_home(t_sh *sh, t_list *environ)
 	return (minishell_env_get(environ, "HOME"));
 }
 
-char	*minishell_builtins_cd_assert_multiple_args(t_sh *sh, char **cmds)
+char	*minishell_builtins_cd_assert_multiple_args(t_sh *sh, char **cmds,
+	t_generic_options	*options)
 {
 	char	cdpath[PATH_MAX];
 	char	directory[PATH_MAX];
 
 	UNUSED(sh);
-	if (cmds[3])
+	if (cmds[options->start] && cmds[options->start + 1]
+		&& cmds[options->start + 2])
 	{
 		minishell_builtins_cd_error(1, "");
 		return (NULL);
 	}
 	getcwd(cdpath, PATH_MAX);
-	if (cmds[3] && !ft_strstr(cdpath, cmds[1]))
+	if (!ft_strstr(cdpath, cmds[options->start]))
 		minishell_builtins_cd_error(2, "");
 	else
 	{
 		directory[0] = 0;
 		ft_strncat(directory, cdpath, ft_strlen(cdpath) -
-			ft_strlen(ft_strstr(cdpath, cmds[1])) - 1);
+			ft_strlen(ft_strstr(cdpath, cmds[options->start])) - 1);
 		ft_strcat(directory, "/");
-		ft_strcat(directory, cmds[2]);
-		ft_strcat(directory, ft_strstr(cdpath, cmds[1]) + ft_strlen(cmds[1]));
+		ft_strcat(directory, cmds[options->start + 1]);
+		ft_strcat(directory, ft_strstr(cdpath, cmds[options->start]) +
+			ft_strlen(cmds[options->start]));
 		return (ft_strdup(directory));
 	}
 	return (NULL);

@@ -101,7 +101,7 @@ int					minishell_builtins_cd_change_directory(t_sh *sh,
 void				minishell_builtins_cd_update_path(t_sh *sh,
 							t_list *environ, char *old_path, char *path);
 char				*minishell_builtins_cd_assert_multiple_args(t_sh *sh,
-							char **cmds);
+							char **cmds, t_generic_options *options);
 char				*minishell_builtins_cd_assert_home(t_sh *sh,
 							t_list *environ);
 int					minishell_builtins_cd_error(int type, char *path);
